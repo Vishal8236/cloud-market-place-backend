@@ -1,4 +1,18 @@
+const AboutCSP = require("../models/about_csp");
 const User = require("../models/user");
+
+exports.completeCSPProfile = (req, res) => {
+    const csp = new AboutCSP(req.body);
+    console.log(csp);
+    csp.save((err, csp) => {
+      if (err) {
+        return res.status(400).json({
+          error: "NOT able to save csp in DB!"
+        });
+      }
+      res.json({ csp , 'message': 'csp profile update successfully'});
+    });
+};
 
 exports.getUserById = (req, res, next, id) => {
     User.findById(id).exec((err, user) => {

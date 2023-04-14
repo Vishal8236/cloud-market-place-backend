@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  createService, getCSPServices,
+  createService, getCSPServices, removeService, getAllServices,
 } = require("../controllers/service");
 const { isSignedIn, isAdmin, isAuthenticated } = require("../controllers/auth");
 const { getUserById } = require("../controllers/user");
+const { FindBestCSP } = require("../controllers/algo");
 
 //params
 router.param("userId", getUserById);
@@ -39,12 +40,21 @@ router.post(
 
 // //delete
 
-// router.delete(
-//   "/category/:categoryId/:userId",
-//   isSignedIn,
-//   isAuthenticated,
-//   isAdmin,
-//   removeCategory
-// );
+router.delete(
+  "/service/remove/:serviceId",
+  isSignedIn,
+  removeService
+);
+
+router.get(
+  "/services/",
+  getAllServices
+);
+
+router.post(
+  "/find-best-service/",
+  isSignedIn,
+  FindBestCSP
+);
 
 module.exports = router;
